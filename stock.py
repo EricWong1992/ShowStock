@@ -9,7 +9,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 # 查询的股票id, 上证前缀s_sh, 深证前缀s_sz
-stock_no = {"s_sh600571", "s_sz002415", "s_sh600751", "s_sh600839"}
+stock_no = {"s_sh600571", "s_sz002415", "s_sh600751", "s_sz002437"}
 
 # 买入提醒价格区间，多个价格按照由低到高排序
 stock_buy_price = {
@@ -39,12 +39,12 @@ def request_info():
             # 买入判断
             for price in stock_buy_price[no]:
                 if price_now <= price:
-                    print "---{}  买入->{}---".format(content[0], price).decode("utf-8").encode("gbk")
+                    print "---{}  买入->目标:{} 当前:{}---".format(content[0], price, price_now).decode("utf-8").encode("gbk")
                     break
             # 卖出判断
             for price in stock_sold_price[no]:
                 if price_now >= price:
-                    print "---{}  卖出->{}---".format(content[0], price).decode("utf-8").encode("gbk")
+                    print "---{}  卖出->目标:{} 当前:{}---".format(content[0], price, price_now).decode("utf-8").encode("gbk")
                     break
         except KeyError:
             pass
@@ -58,6 +58,10 @@ def main():
     last_price = {}
     for no in stock_no:
         last_price[no] = 0
+    # 自动关闭多余http连接
+    s = requests.session()
+    s.keep_alive = False
+    # 开始定时器
     timer = threading.Timer(2.0, request_info)
     timer.start()
 
