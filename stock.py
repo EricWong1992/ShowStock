@@ -33,7 +33,7 @@ def request_info():
         price_now = float(content[1])
         global last_price
         if price_now != last_price[no]:
-            print "-----{} No:{}:{} 价格:{} 涨跌:{} 涨跌幅:{}%-----".format(time.strftime("%H:%I:%S", time.localtime(time.time())), no[4:], content[0], content[1], content[2], float(content[3])).decode("utf-8").encode("gbk")
+            print "-----{} No:{}:{} 价格:{} 涨跌:{} 涨跌幅:{}%-----".format(time.strftime("%H:%M:%S", time.localtime(time.time())), no[4:], content[0], content[1], content[2], float(content[3])).decode("utf-8").encode("gbk")
             last_price[no] = price_now
         try:
             # 买入判断
